@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ゼロから始めるClaude Code × VS Code 開発環境構築ガイド</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --primary-soft: #dbeafe;
+      --border: #e5e7eb;
+      --code-bg: #0f172a;
+      --code-text: #e2e8f0;
+      --ok: #065f46;
+      --ok-bg: #d1fae5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
+      line-height: 1.7;
+    }
+
+    .container {
+      width: min(980px, calc(100% - 2rem));
+      margin: 2rem auto 4rem;
+    }
+
+    header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(2, 8, 23, 0.05);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      margin: 0 0 0.8rem;
+      font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+      line-height: 1.35;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    nav {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    nav h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.05rem;
+      color: var(--primary);
+    }
+
+    nav ol {
+      margin: 0;
+      padding-left: 1.2rem;
+      display: grid;
+      gap: 0.3rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #1d4ed8;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.4rem 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.3rem;
+      color: #0f172a;
+      border-left: 4px solid var(--primary);
+      padding-left: 0.6rem;
+    }
+
+    h3 {
+      margin-bottom: 0.4rem;
+      color: #1e3a8a;
+    }
+
+    p {
+      margin: 0.4rem 0 0.9rem;
+    }
+
+    ul, ol {
+      margin-top: 0.2rem;
+      margin-bottom: 1rem;
+      padding-left: 1.4rem;
+    }
+
+    li + li {
+      margin-top: 0.35rem;
+    }
+
+    code {
+      font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
+      background: #eef2ff;
+      color: #312e81;
+      padding: 0.08rem 0.32rem;
+      border-radius: 6px;
+      font-size: 0.94em;
+    }
+
+    pre {
+      margin: 0.8rem 0 1rem;
+      background: var(--code-bg);
+      color: var(--code-text);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      overflow-x: auto;
+      border: 1px solid #1e293b;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border-radius: 0;
+    }
+
+    .note {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 0.75rem 0.9rem;
+      margin: 0.65rem 0;
+    }
+
+    .success {
+      background: var(--ok-bg);
+      color: var(--ok);
+      border: 1px solid #86efac;
+      border-radius: 12px;
+      padding: 0.8rem 0.95rem;
+      font-weight: 600;
+    }
+
+    blockquote {
+      margin: 0.8rem 0 1rem;
+      padding: 0.75rem 0.95rem;
+      border-left: 4px solid #93c5fd;
+      background: #eff6ff;
+      border-radius: 6px;
+    }
+
+    .diagram {
+      margin: 1rem 0 1.2rem;
+      text-align: center;
+    }
+
+    .diagram img {
+      width: 100%;
+      max-width: 860px;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+      background: #fff;
+    }
+
+    .diagram figcaption {
+      margin-top: 0.45rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    footer {
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.93rem;
+      margin-top: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>ゼロから始めるClaude Code × VS Code 開発環境構築ガイド</h1>
+      <p class="lead">初学者がAIをフル活用して、プロジェクト開発とGit管理を行うための実践的なセットアップ手順。</p>
+    </header>
+
+    <nav>
+      <h2>目次</h2>
+      <ol>
+        <li><a href="#sec1">VS Codeのインストールおよび設定</a></li>
+        <li><a href="#sec2">Claude Codeのインストールおよび設定</a></li>
+        <li><a href="#sec3">Gitの概念説明、GitHubアカウント取得、Gitインストール</a></li>
+        <li><a href="#sec4">VS Code・Claude Code・Gitの連携設定</a></li>
+        <li><a href="#sec5">総括した開発フロー（実践）</a></li>
+      </ol>
+    </nav>
+
+    <section id="sec1">
+      <h2>1. VS Codeのインストールおよび設定</h2>
+      <p>すべての作業のベースとなるエディタを導入し、最低限の開発設定を行います。</p>
+      <ol>
+        <li><a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer">Visual Studio Code公式サイト</a>にアクセスする。</li>
+        <li>OS（Windows/Mac）に合ったインストーラーをダウンロードする。</li>
+        <li>画面の指示に従ってインストールを完了させる。</li>
+        <li>VS Code左端のアクティビティバーから「拡張機能（四角いブロックのアイコン）」をクリックする。</li>
+        <li>検索バーに <code>Cline</code> と入力し、インストールする。</li>
+        <li>C/C++やPythonなど、自身の開発用途に合わせた拡張機能も併せてインストールしておく。</li>
+      </ol>
+    </section>
+
+    <section id="sec2">
+      <h2>2. Claude Codeのインストールおよび設定</h2>
+      <p>現在、最も推奨される方法は、依存関係が少なく自動アップデートにも対応した<strong>ネイティブインストーラー</strong>です。</p>
+      <ol>
+        <li>VS Codeを開き、上部メニューの「ターミナル」&gt;「新しいターミナル」で画面下部にターミナルを開く。</li>
+        <li>使用中のOS・シェルに合わせて、以下のコマンドを実行する。</li>
+      </ol>
+
+      <h3>macOS / Linux（WSL含む）</h3>
+      <pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre>
+
+      <h3>Windows（PowerShell・推奨）</h3>
+      <pre><code>irm https://claude.ai/install.ps1 | iex</code></pre>
+
+      <h3>Windows（CMD）</h3>
+      <pre><code>curl -fsSL https://claude.ai/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd</code></pre>
+
+      <ol start="3">
+        <li>インストール完了後、作業したいプロジェクトのディレクトリへ移動し、<code>claude</code> を実行する。</li>
+        <li>初回起動時にブラウザが開くので、Anthropicアカウントでログイン（認証）を行う。</li>
+        <li>認証完了後、ターミナル上で自然言語によるコーディング指示が可能になる。</li>
+        <li>必要に応じて <code>claude --version</code> を実行し、インストール状態を確認する。</li>
+      </ol>
+
+      <div class="note">補足1: 以前よく使われていた <code>npm install -g @anthropic-ai/claude-code</code> は、現在は非推奨（レガシー）扱い。</div>
+      <div class="note">補足2: 利用には Claude の有料プラン（Pro/Max/Teams/Enterprise）または Anthropic Console のAPIクレジットが必要。</div>
+      <div class="note">補足3: Windowsネイティブ環境では、Bash系ツールを扱いやすくするために <a href="https://gitforwindows.org/" target="_blank" rel="noopener noreferrer">Git for Windows</a> の導入が推奨される（WSL環境では不要）。</div>
+    </section>
+
+    <section id="sec3">
+      <h2>3. Gitの概念説明、GitHubアカウント取得、Gitインストール</h2>
+      <p>コマンドを覚える前に、まずはGitの基本概念と運用ルールを押さえたうえで、アカウントと実行環境を準備します。</p>
+      <figure class="diagram">
+        <img src="git_diagram.png" alt="Gitの基本概念と運用フローを示す図" />
+        <figcaption>Gitの基本概念と運用フロー図</figcaption>
+      </figure>
+
+      <h3>Gitってなに？</h3>
+      <p>Gitは、<strong>ファイルの変更履歴を管理する仕組み</strong>です。<br>
+      「いつ」「誰が」「どこを」「なぜ変えたか」を記録し、必要なら過去の状態に戻したり、変更差分を比較したりできます。</p>
+
+      <h3>ローカルとリモート</h3>
+      <ul>
+        <li><strong>ローカル</strong>: 自分のPC内にある作業コピー</li>
+        <li><strong>リモート</strong>: GitHub上にある共有コピー</li>
+      </ul>
+
+      <h3>基本の流れ（重要）</h3>
+      <ol>
+        <li>ファイルを編集する（ローカル）</li>
+        <li><code>git add</code> で変更を記録対象にする</li>
+        <li><code>git commit</code> で履歴として確定する（ここまでローカル）</li>
+        <li><code>git push</code> でリモート（GitHub）に反映する</li>
+      </ol>
+      <div class="note">補足: リモートへ反映するのは <code>push</code>。<code>pull</code> はリモートの変更をローカルへ取り込む操作。</div>
+
+      <h3>ブランチ運用（自分だけの世界線）</h3>
+      <ul>
+        <li><code>main</code>（または <code>master</code>）は、常に動く安定版として扱う</li>
+        <li>機能追加や編集は、必ず <code>main</code> 以外のブランチで行う</li>
+        <li>直接 <code>main</code> にコミットせず、作業ブランチでコミットしてからPRで統合する</li>
+      </ul>
+      <p>基本手順:</p>
+      <ol>
+        <li><code>main</code> から作業ブランチを作る（例: <code>feature/login</code>）</li>
+        <li>作業ブランチで編集・コミットする</li>
+        <li>GitHubでPull Requestを作る</li>
+        <li>レビュー後に <code>main</code> へマージする</li>
+      </ol>
+
+      <h3>GitHubアカウントの取得</h3>
+      <ol>
+        <li><a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub公式サイト</a>にアクセスする。</li>
+        <li>右上の「Sign up」をクリックする。</li>
+        <li>メールアドレス、パスワード、ユーザー名を入力し、アカウントを作成する。</li>
+      </ol>
+
+      <h3>Gitのインストール</h3>
+      <ul>
+        <li><strong>Windows</strong>: <a href="https://gitforwindows.org/" target="_blank" rel="noopener noreferrer">Git for Windows</a> をインストール</li>
+        <li><strong>Mac</strong>: Homebrewを使う場合は <code>brew install git</code></li>
+      </ul>
+      <p>インストール後、ターミナルで次を実行して確認する。</p>
+      <pre><code>git --version</code></pre>
+    </section>
+
+    <section id="sec4">
+      <h2>4. VS Code・Claude Code・Gitの連携設定</h2>
+      <p>3つをつないで、AIがGit運用を補助できる状態にします。</p>
+      <ul>
+        <li>
+          <strong>CLI（Claude Code）でのGit操作</strong><br>
+          ネイティブインストーラーで導入したClaude Codeは、フォルダがGit管理（<code>git init</code>）されていればGitコマンドを使ってコミット支援できます。<br>
+          例: 「今の変更をコミットして」と指示すると、<code>git add</code> と <code>git commit</code> を提案してくれます。
+        </li>
+        <li>
+          <strong>GUI（Cline）でのMCP活用</strong><br>
+          ClineはMCP（Model Context Protocol）をサポートしており、外部ツールとの連携が得意です。<br>
+          Clineのサイドバー設定からMCPサーバーを追加すれば、GitHub Issue管理などの周辺タスクにも展開できます。
+        </li>
+      </ul>
+    </section>
+
+    <section id="sec5">
+      <h2>5. 総括した開発フロー（VS Codeでの実践）</h2>
+      <p>例として、M5StackやESP32から送られてくるセンサーデータを処理する、簡単なPythonサーバーを開発する流れを示します。</p>
+      <ol>
+        <li><strong>プロジェクトの準備</strong><br>PC上に空のフォルダ（例: <code>sensor-logger</code>）を作成し、VS Codeでそのフォルダを開く。</li>
+        <li><strong>Claude Codeの起動</strong><br>VS Codeのターミナルで <code>claude</code> を実行する。</li>
+        <li><strong>要件を伝える（指示出し）</strong>
+          <blockquote>Pythonでセンサーデータを受信して保存する簡単なアプリを作りたい。ファイルの構成案を出し、必要なライブラリのインストールとベースとなるコードを作成して。</blockquote>
+        </li>
+        <li><strong>確認と実行</strong><br>Claude Codeがファイル作成や依存ライブラリの追加コマンドを提案したら、内容を確認して承認する。</li>
+        <li><strong>ブランチを切って開発する</strong><br><code>main</code> から作業ブランチを作り、そのブランチ上で実装する。</li>
+        <li><strong>Gitで履歴管理する</strong><br>変更を <code>add</code> → <code>commit</code> し、区切りごとに <code>push</code> する。</li>
+        <li><strong>PRでmainへ統合する</strong><br>GitHubでPull Requestを作成し、レビュー後に <code>main</code> へマージする。</li>
+      </ol>
+
+      <p class="success">VS Codeという一つのウィンドウ内で、「コード編集」「AI支援」「Git運用」を一体化して進めるのが、現代の効率的な開発スタイルです。</p>
+    </section>
+
+    <footer>
+      このページは <code>install_claude_code.md</code> をもとにHTML化したドキュメントです。
+    </footer>
+  </div>
+</body>
+</html>

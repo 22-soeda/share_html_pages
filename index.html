@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>共有ドキュメントポータル</title>
+  <meta name="description" content="複数のHTMLドキュメントをWebで共有するためのホームページです。" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <h1>共有ドキュメントポータル</h1>
+      <p>公開したいHTMLドキュメントを一覧から選び、その場で閲覧できます。</p>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <h2>ドキュメント一覧</h2>
+        <nav aria-label="ドキュメントナビゲーション">
+          <a class="doc-link active" href="terackathon/install_claude_code.html" target="doc-viewer">
+            Claude Code導入ガイド
+          </a>
+        </nav>
+        <p class="hint">
+          追加したい場合は、リンクを増やすだけで対応できます。
+        </p>
+      </aside>
+
+      <section class="viewer-panel" aria-label="ドキュメントビューア">
+        <iframe
+          name="doc-viewer"
+          title="共有ドキュメントビューア"
+          src="terackathon/install_claude_code.html"
+          loading="lazy"
+        ></iframe>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var links = document.querySelectorAll(".doc-link");
+      links.forEach(function (link) {
+        link.addEventListener("click", function () {
+          links.forEach(function (item) {
+            item.classList.remove("active");
+          });
+          link.classList.add("active");
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
