@@ -228,7 +228,7 @@
         <li>OS（Windows/Mac）に合ったインストーラーをダウンロードする。</li>
         <li>画面の指示に従ってインストールを完了させる。</li>
         <li>VS Code左端のアクティビティバーから「拡張機能（四角いブロックのアイコン）」をクリックする。</li>
-        <li>検索バーに <code>Cline</code> と入力し、インストールする。</li>
+        <li>検索バーに <code>Claude Code</code> または <code>Claude Code for VS Code</code> と入力し、<strong>発行元が Anthropic</strong> の公式拡張（マーケットプレイスID: <code>anthropic.claude-code</code>）をインストールする。<a href="https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code" target="_blank" rel="noopener noreferrer">Visual Studio Marketplace のページ</a>からも開ける。</li>
         <li>C/C++やPythonなど、自身の開発用途に合わせた拡張機能も併せてインストールしておく。</li>
       </ol>
     </section>
@@ -329,9 +329,9 @@
           例: 「今の変更をコミットして」と指示すると、<code>git add</code> と <code>git commit</code> を提案してくれます。
         </li>
         <li>
-          <strong>GUI（Cline）でのMCP活用</strong><br>
-          ClineはMCP（Model Context Protocol）をサポートしており、外部ツールとの連携が得意です。<br>
-          Clineのサイドバー設定からMCPサーバーを追加すれば、GitHub Issue管理などの周辺タスクにも展開できます。
+          <strong>GUI（Claude Code for VS Code）</strong><br>
+          Anthropic公式のVS Code拡張機能を使うと、ターミナルの <code>claude</code> に加えて、エディタ内のサイドバーやチャットからClaude Codeを利用できます（ファイルの <code>@</code> 参照やスラッシュコマンドなど、CLIに近い操作感）。<br>
+          設定からMCP（Model Context Protocol）サーバーを追加すれば、外部ツール連携やGitHubまわりの作業などにも広げられます。
         </li>
       </ul>
     </section>
